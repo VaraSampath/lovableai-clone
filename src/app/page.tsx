@@ -2,23 +2,30 @@
 
 import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const Home = () => {
   const trpc = useTRPC();
-  const invoke = useMutation(trpc.invoke.mutationOptions({}));
+  const { data: messages } = useQuery(trpc.messages.getMany.queryOptions());
+  const createMessage = useMutation(
+    trpc.messages.create.mutationOptions({
+      onSuccess: () => {
+        console.log("Success");
+      },
+    })
+  );
   return (
     <div className="p-4 max-w-7xl mx-auto">
       <Button
         onClick={() => {
-          invoke.mutate({
-            value:
-              "Build a responsive calculator using shadcn UI and Tailwind",
+          createMessage.mutate({
+            value: "Build a responsive calculator using shadcn UI and Tailwind",
           });
         }}
       >
         Invoke Background Job
       </Button>
+      {JSON.stringify(messages)}
     </div>
   );
 };
