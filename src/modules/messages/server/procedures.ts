@@ -16,6 +16,9 @@ export const messagesRouter = createTRPCRouter({
     .input(
       z.object({
         value: z.string().min(1, { message: "Please provide a message" }),
+        projectId: z
+          .string()
+          .min(1, { message: "Please provide a project ID" }),
       })
     )
     .mutation(async ({ input }) => {
@@ -24,12 +27,14 @@ export const messagesRouter = createTRPCRouter({
           content: input.value,
           role: "USER",
           type: "RESULT",
+          projectId: input.projectId,
         },
       });
       await inngest.send({
         name: "code-agent/builder",
         data: {
           value: input.value,
+          projectId: input.projectId,
         },
       });
       return message;
