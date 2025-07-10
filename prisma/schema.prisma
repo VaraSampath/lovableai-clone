@@ -34,7 +34,7 @@ model Message{
   createdAt DateTime @default(now())  
   updatedAt DateTime @updatedAt
 
-  Fragment Fragment?
+  fragment Fragment?
   projectId String
 
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)

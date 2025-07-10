@@ -195,7 +195,7 @@ export const codeAgentFunction = inngest.createFunction(
           type: "RESULT",
           projectId: event.data.projectId,
 
-          Fragment: {
+          fragment: {
             create: {
               sandboxUrl: sandboxUrl,
               files: result.state.data.files,
